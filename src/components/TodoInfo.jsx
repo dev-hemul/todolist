@@ -1,4 +1,5 @@
 const TodoInfo = (props) => {
+  console.log('TodoInfo')
 
   const {
     total,

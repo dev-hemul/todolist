@@ -6,6 +6,7 @@ import {useState, useEffect, useRef} from "react";
 import Button from "./Button";
 
 const Todo = () => {
+  console.log('Todo')
 
   const [tasks, setTasks] = useState(() => {
     const savedTasks = localStorage.getItem('tasks');
@@ -108,8 +109,7 @@ const Todo = () => {
         firstIncompleteTaskId={firstIncompleteTaskId}
         onDeleteTaskButtonClick={deleteTask}
         onTaskCompleteChange={toggleTaskComplete}
-      />
-    </div>
+      /></div>
   )
 }
 

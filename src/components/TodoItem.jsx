@@ -1,4 +1,5 @@
 const TodoItem = (props) => {
+  console.log('TodoItem')
   const {
     className = '',
     id,
