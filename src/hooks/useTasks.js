@@ -1,25 +1,25 @@
 import {useState, useCallback, useEffect, useMemo, useRef} from 'react';
+import useTasksLocalStorage from "./useTasksLocalStorage";
 
 const useTasks = () => {
-      const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('tasks');
-    if (savedTasks) {
-      return JSON.parse(savedTasks);
-    }
+  useTasksLocalStorage();
+  const {
+    savedTasks,
+    saveTasks
+  } = useTasksLocalStorage();
 
-    return [
+
+  const [tasks, setTasks] = useState(savedTasks ?? [
       {id: 'task-1', title: 'Купить молоко', isDone: false},
       {id: 'task-2', title: 'Погладить кота', isDone: true}
-    ];
-  });
+    ])
+
 
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
   const [searchQuery, setSearchQuery] = useState('');
 
   const newTaskInputRef = useRef(null);
-  const firstIncompleteTaskRef = useRef(null);
-  const firstIncompleteTaskId = tasks.find(({isDone}) => !isDone)?.id;
 
   const deleteAllTasks = useCallback(() => {
     const isConfirmed = confirm('Are you sure you want to delete all tasks?');
@@ -63,6 +63,7 @@ const useTasks = () => {
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    saveTasks(tasks);
   }, [tasks])
 
   useEffect(() => {
@@ -86,9 +87,8 @@ const useTasks = () => {
     addTask,
     deleteTask,
     toggleTaskComplete,
-    firstIncompleteTaskRef,
-    firstIncompleteTaskId,
-    deleteAllTasks}
+    deleteAllTasks
+  }
 }
 
 export default useTasks
