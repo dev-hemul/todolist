@@ -10,9 +10,9 @@ const useTasks = () => {
 
 
   const [tasks, setTasks] = useState(savedTasks ?? [
-      {id: 'task-1', title: 'Купить молоко', isDone: false},
-      {id: 'task-2', title: 'Погладить кота', isDone: true}
-    ])
+    {id: 'task-1', title: 'Купить молоко', isDone: false},
+    {id: 'task-2', title: 'Погладить кота', isDone: true}
+  ])
 
 
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -45,21 +45,19 @@ const useTasks = () => {
     )
   }, [tasks])
 
-  const addTask = useCallback(() => {
-
-    if (newTaskTitle.trim().length > 0) {
-      const newTask = {
-        id: crypto?.randomUUID() ?? Date.now().toString(),
-        title: newTaskTitle,
-        isDone: false
-      }
-
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-      setNewTaskTitle('');
-      setSearchQuery('');
-      newTaskInputRef.current.focus();
+  const addTask = useCallback((title) => {
+    const newTask = {
+      id: crypto?.randomUUID() ?? Date.now().toString(),
+      title,
+      isDone: false
     }
-  }, [newTaskTitle])
+
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setNewTaskTitle('');
+    setSearchQuery('');
+    newTaskInputRef.current.focus();
+
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
